@@ -1,0 +1,23 @@
+{
+    "include": {
+        "boss": [
+            "cobblemonraiddens:reshiram",
+            "cobblemonraiddens:zekrom",
+            "cobblemonraiddens:kyurem",
+            "cobblemonraiddens:cobalion",
+            "cobblemonraiddens:terrakion",
+            "cobblemonraiddens:virizion",
+            "cobblemonraiddens:tornadus",
+            "cobblemonraiddens:thundurus",
+            "cobblemonraiddens:landorus",
+            "cobblemonraiddens:victini",
+            "cobblemonraiddens:keldeo",
+            "cobblemonraiddens:genesect",
+            "cobblemonraiddens:meloetta"
+        ]
+    },
+    "biome": [
+        "*"
+    ],
+    "weight": 10.0
+}

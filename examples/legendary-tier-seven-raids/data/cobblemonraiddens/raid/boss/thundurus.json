@@ -1,0 +1,15 @@
+{
+    "pokemon": {
+        "species": "thundurus",
+        "moves": [
+            "thunder",
+            "thunderbolt",
+            "crunch",
+            "focusblast"
+        ]
+    },
+    "raid_tier": "TIER_SEVEN",
+    "raid_type": "ELECTRIC",
+    "weight": 10.0,
+    "max_clears": 1
+}

@@ -62,6 +62,7 @@ public abstract class RaidCrystalBlockEntity extends BlockEntity implements GeoB
     private int checkingHeight;
 
     private UUID uuid;
+    private UUID placedBy;
     private ResourceLocation raidBucket;
     private ResourceLocation raidBoss;
 
@@ -240,6 +241,7 @@ public abstract class RaidCrystalBlockEntity extends BlockEntity implements GeoB
 
         RaidInstance raid = new RaidInstance(pokemonEntity, playerId);
         if (raid.failedToStart()) return false;
+        raid.setPlacedBy(this.placedBy);
         RaidHelper.ACTIVE_RAIDS.put(this.getUuid(), raid);
 
         pokemonEntity.moveTo(region.getBossPos());
@@ -256,11 +258,7 @@ public abstract class RaidCrystalBlockEntity extends BlockEntity implements GeoB
         if (wasWin) this.aspects = null;
         if (this.isAtMaxClears()) {
             RaidHelper.resetClearedRaids(this.getUuid());
-            if (this.getLevel() != null) this.getLevel().setBlock(
-                this.getBlockPos(),
-                this.getBlockState().setValue(RaidCrystalBlock.ACTIVE, false),
-                2
-            );
+            if (this.getLevel() != null) this.getLevel().destroyBlock(this.getBlockPos(), false);
         }
     }
 
@@ -293,6 +291,15 @@ public abstract class RaidCrystalBlockEntity extends BlockEntity implements GeoB
 
     public RaidBucket getRaidBucket() {
         return RaidBucketRegistry.getBucket(this.raidBucket);
+    }
+
+    public UUID getPlacedBy() {
+        return this.placedBy;
+    }
+
+    public void setPlacedBy(UUID placedBy) {
+        this.placedBy = placedBy;
+        this.setChanged();
     }
 
     public RaidBoss getRaidBoss() {
@@ -413,6 +420,7 @@ public abstract class RaidCrystalBlockEntity extends BlockEntity implements GeoB
 
         if (compoundTag.contains("uuid")) this.uuid = UUID.fromString(compoundTag.getString("uuid"));
         else this.uuid = UUID.randomUUID();
+        if (compoundTag.contains("placed_by")) this.placedBy = UUID.fromString(compoundTag.getString("placed_by"));
         if (compoundTag.contains("raid_bucket")) this.raidBucket = ResourceLocation.parse(compoundTag.getString("raid_bucket"));
         if (compoundTag.contains("raid_boss")) this.raidBoss = ResourceLocation.parse(compoundTag.getString("raid_boss"));
         if (compoundTag.contains("is_open")) this.isOpen = true;
@@ -431,6 +439,7 @@ public abstract class RaidCrystalBlockEntity extends BlockEntity implements GeoB
         compoundTag.putLong("last_reset", this.lastReset);
 
         if (this.uuid != null) compoundTag.putString("uuid", this.uuid.toString());
+        if (this.placedBy != null) compoundTag.putString("placed_by", this.placedBy.toString());
         if (this.raidBucket != null) compoundTag.putString("raid_bucket", this.raidBucket.toString());
         if (this.raidBoss != null) compoundTag.putString("raid_boss", this.raidBoss.toString());
         if (this.isOpen) compoundTag.putBoolean("is_open", true);

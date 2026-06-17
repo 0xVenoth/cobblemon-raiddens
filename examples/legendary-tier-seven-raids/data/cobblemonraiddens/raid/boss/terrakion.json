@@ -1,0 +1,15 @@
+{
+    "pokemon": {
+        "species": "terrakion",
+        "moves": [
+            "sacredsword",
+            "stoneedge",
+            "closecombat",
+            "earthquake"
+        ]
+    },
+    "raid_tier": "TIER_SEVEN",
+    "raid_type": "FIGHTING",
+    "weight": 10.0,
+    "max_clears": 1
+}

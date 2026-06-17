@@ -237,6 +237,10 @@ public abstract class RaidCrystalBlock extends BaseEntityBlock {
 
         CustomData data = itemStack.get(DataComponents.BLOCK_ENTITY_DATA);
         if (data != null) blockEntity.loadCustomOnly(data.copyTag(), level.registryAccess());
+
+        if (blockEntity instanceof RaidCrystalBlockEntity raidCrystal && livingEntity instanceof Player player) {
+            raidCrystal.setPlacedBy(player.getUUID());
+        }
     }
 
     @Override

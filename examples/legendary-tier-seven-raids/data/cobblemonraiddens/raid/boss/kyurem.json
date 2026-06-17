@@ -1,0 +1,15 @@
+{
+    "pokemon": {
+        "species": "kyurem",
+        "moves": [
+            "glaciate",
+            "dragonpulse",
+            "icebeam",
+            "earthpower"
+        ]
+    },
+    "raid_tier": "TIER_SEVEN",
+    "raid_type": "DRAGON",
+    "weight": 10.0,
+    "max_clears": 1
+}

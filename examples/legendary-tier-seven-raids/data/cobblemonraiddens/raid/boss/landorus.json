@@ -1,0 +1,15 @@
+{
+    "pokemon": {
+        "species": "landorus",
+        "moves": [
+            "earthpower",
+            "earthquake",
+            "rockslide",
+            "extrasensory"
+        ]
+    },
+    "raid_tier": "TIER_SEVEN",
+    "raid_type": "GROUND",
+    "weight": 10.0,
+    "max_clears": 1
+}

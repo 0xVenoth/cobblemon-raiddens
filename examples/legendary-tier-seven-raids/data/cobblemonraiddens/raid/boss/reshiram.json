@@ -1,0 +1,15 @@
+{
+    "pokemon": {
+        "species": "reshiram",
+        "moves": [
+            "blueflare",
+            "fusionflare",
+            "dragonpulse",
+            "extrasensory"
+        ]
+    },
+    "raid_tier": "TIER_SEVEN",
+    "raid_type": "FIRE",
+    "weight": 10.0,
+    "max_clears": 1
+}

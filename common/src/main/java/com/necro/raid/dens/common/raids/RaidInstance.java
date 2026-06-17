@@ -16,6 +16,7 @@ import com.necro.raid.dens.common.CobblemonRaidDens;
 import com.necro.raid.dens.common.data.dimension.RaidRegion;
 import com.necro.raid.dens.common.data.raid.RaidBoss;
 import com.necro.raid.dens.common.data.raid.RaidFeature;
+import com.necro.raid.dens.common.data.raid.RaidTier;
 import com.necro.raid.dens.common.dimensions.ModDimensions;
 import com.necro.raid.dens.common.events.ModifyCatchRateEvent;
 import com.necro.raid.dens.common.events.RaidEndEvent;
@@ -56,6 +57,7 @@ import java.util.function.Supplier;
 public class RaidInstance {
     private final PokemonEntity bossEntity;
     private final @Nullable UUID host;
+    private @Nullable UUID placedBy;
     private final UUID raid;
     private final RaidBoss raidBoss;
     private final ServerBossEvent bossEvent;
@@ -429,9 +431,16 @@ public class RaidInstance {
             cachedReward = null;
         }
 
+        boolean isLegendaryRaid = this.raidBoss.getTier() == RaidTier.TIER_SEVEN;
         success.forEach(player -> {
             Pokemon reward = cachedReward == null ? this.raidBoss.getRewardPokemon(player) : cachedReward.clone(true, null);
-            float catchRate = this.playerMap.getOrDefault(player.getUUID(), new RaidPlayer()).catchRate();
+            float catchRate;
+            if (isLegendaryRaid) {
+                boolean isPlacer = this.placedBy != null && this.placedBy.equals(player.getUUID());
+                catchRate = isPlacer ? 1.0F : 0.1F;
+            } else {
+                catchRate = this.playerMap.getOrDefault(player.getUUID(), new RaidPlayer()).catchRate();
+            }
             ModifyCatchRateEvent event = new ModifyCatchRateEvent(player, reward, catchRate);
             RaidEvents.MODIFY_CATCH_RATE.emit(event);
             RaidEvents.RAID_END.emit(new RaidEndEvent(player, this.raidBoss, reward, event.catchRate(), true));
@@ -455,6 +464,14 @@ public class RaidInstance {
 
     public @Nullable UUID getHost() {
         return this.host;
+    }
+
+    public @Nullable UUID getPlacedBy() {
+        return this.placedBy;
+    }
+
+    public void setPlacedBy(@Nullable UUID placedBy) {
+        this.placedBy = placedBy;
     }
 
     public PokemonEntity getBossEntity() {

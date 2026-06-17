@@ -9,6 +9,7 @@ import com.necro.raid.dens.common.compat.ModCompat;
 import com.necro.raid.dens.common.compat.cobbledollars.RaidDensCobbleDollarsCompat;
 import com.necro.raid.dens.common.components.ModComponents;
 import com.necro.raid.dens.common.data.raid.RaidBoss;
+import com.necro.raid.dens.common.data.raid.RaidTier;
 import com.necro.raid.dens.common.events.RaidEvents;
 import com.necro.raid.dens.common.events.RewardPokemonEvent;
 import com.necro.raid.dens.common.items.ModItems;
@@ -107,6 +108,8 @@ public class RewardHandler {
 
     public boolean giveItemToPlayer(ServerPlayer player, boolean applyBonus) {
         if (this.raidBoss == null) this.raidBoss = RaidRegistry.getRaidBoss(this.raidBossId);
+        // Raids 7★ légendaires : aucune récompense d'item, seulement la capture du légendaire.
+        if (this.raidBoss != null && this.raidBoss.getTier() == RaidTier.TIER_SEVEN) return true;
         ItemStack raidPouch = this.buildRaidPouch(applyBonus);
         if (raidPouch == null) {
             player.displayClientMessage(ComponentUtils.getErrorMessage("error.cobblemonraiddens.raid_boss_not_found"), true);
